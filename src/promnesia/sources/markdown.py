@@ -48,7 +48,7 @@ def _ashtml(block) -> str:
 
 class Parser:
     def __init__(self, path: Path):
-        self.doc = mistletoe.Document(path.read_text())
+        self.doc = mistletoe.Document(path.read_text(encoding="utf-8")) # , errors="ignore"))
 
     def _extract(self, cur, last_block) -> Iterator[Parsed]:
         if not isinstance(cur, (AutoLink, Link)):
