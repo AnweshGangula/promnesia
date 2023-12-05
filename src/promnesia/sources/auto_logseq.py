@@ -8,6 +8,7 @@ def logseq_replacer(path: str, root: str) -> str:
     graph = os.path.basename(root)
     page_name = os.path.basename(path).rsplit('.', 1)[0]
     encoded_page_name = urllib.parse.quote(page_name)
+    encoded_page_name = encoded_page_name.replace("___", "%2F")
     
     uri = f"logseq://graph/{graph}?page={encoded_page_name}"
 
