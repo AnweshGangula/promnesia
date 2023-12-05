@@ -115,9 +115,15 @@ function defaultOptions(): StoredOptions {
         // todo would be nice to validate on saving...
         global_excludelists_ext: `[
   ["Webmail",
-   "https://raw.githubusercontent.com/cbuijs/shallalist/master/webmail/domains"        ],
+   "https://raw.githubusercontent.com/karlicoss/shallalist/main/webmail/domains"],
   ["Banking",
-   "https://raw.githubusercontent.com/cbuijs/shallalist/master/finance/banking/domains"]
+   "https://raw.githubusercontent.com/karlicoss/shallalist/main/finance/banking/domains"],
+   ["Dating",
+   "https://raw.githubusercontent.com/karlicoss/shallalist/main/dating/domains"],
+   ["Porn",
+   "https://raw.githubusercontent.com/karlicoss/shallalist/main/porn/domains"],
+   ["Spyware",
+   "https://raw.githubusercontent.com/karlicoss/shallalist/main/spyware/domains"]
 ]`,
         src_map: '{}',
 
