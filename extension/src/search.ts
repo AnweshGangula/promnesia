@@ -149,7 +149,7 @@ doc.getElementById('search_id')!.addEventListener('submit', async (event: Event)
         allsources.search(getQuery().value),
         {
             with_ctx_first: true,
-            highlight_if: null,
+            highlight_if: (v: Visit) => v.context.slice(0,150).toLowerCase().includes(getQuery().value),
         },
     );
 })

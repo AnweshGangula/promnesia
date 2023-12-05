@@ -156,6 +156,7 @@ a.promnesia-visited {
     white-space: pre-wrap; /* need to keep linebreaks  */
     padding-left: 1em;
     min-width: 350px;
+    margin-bottom: 10px;
 }
 
 /* TODO use proper flex layout... */
@@ -308,6 +309,20 @@ a.promnesia-visited {
 /* Search page*/
 #promnesia-search #search_id {
     display: flex;
+}
+
+#promnesia-search ul {
+    margin-block: 0;
+}
+
+#visits>li ul {
+    margin-bottom: -20px;
+    margin-top: -10px;
+    padding-top: 10px;
+}
+
+#visits>li li {
+    margin-top: -10px;
 }
 
 #promnesia-search #query_id {
