@@ -65,6 +65,11 @@ class Sidebar {
         link.rel = "stylesheet";
         head.appendChild(link);
 
+        const meta = cdoc.createElement("meta");
+        meta.name = "color-scheme";
+        meta.content = "light dark";
+        head.appendChild(meta);
+
         addStyle(cdoc, this.opts.position_css);
         // ugh. this is fucking horrible. hack to add default --right: 1 if it's not defined anywhere...
         // I spent hours trying to implement it on pure css via vars/calc -- but didn't manage
@@ -86,6 +91,19 @@ class Sidebar {
         // makes it much easier for settings
         cbody.id = SIDEBAR_ID;
         cbody.setAttribute('uuid', UUID)
+
+        const sidebar_background = cdoc.createElement('div');
+        sidebar_background.id = "sidebar_background";
+        cbody.appendChild(sidebar_background);
+
+        sidebar_background.addEventListener('click', defensify(async () => {
+            await this.hide();
+        }, 'close_sidebar.onClick'));
+
+        const sidebar_content = cdoc.createElement('div');
+        sidebar_content.id = "sidebar_content";
+        cbody.appendChild(sidebar_content);
+
 		const sidebar_header = cdoc.createElement('div');
         sidebar_header.id = HEADER_ID;
         const sidebar_toolbar = cdoc.createElement('div');
@@ -132,7 +150,7 @@ class Sidebar {
 			close_button.title = "Close sidebar";
             sidebar_toolbar.appendChild(close_button);
         }
-		cbody.appendChild(sidebar_header);
+		sidebar_content.appendChild(sidebar_header);
         /*
         {
             const hb = cdoc.createElement('button');
@@ -143,7 +161,7 @@ class Sidebar {
 
         const ccc = cdoc.createElement('div');
         ccc.id = CONTAINER_ID;
-        cbody.appendChild(ccc);
+        sidebar_content.appendChild(ccc);
     }
 
     async clearContainer() {
