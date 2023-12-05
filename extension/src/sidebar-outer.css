@@ -5,11 +5,11 @@ body.promnesia-sidebar-active {
 .promnesia-sidebar-active #promnesia-frame {
     margin: 0;
     padding: 0;
-    max-width: none;
+    max-width: 500px;
     width: 100%;
     max-height: none;
     border: 0;
-    border-left: 1px solid #999;
+    /* border-left: 1px solid #999; */
 }
 
 #promnesia-frame {

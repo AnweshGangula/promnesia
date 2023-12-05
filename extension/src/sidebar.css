@@ -1,10 +1,11 @@
 .promnesia {
     /* Common used colors, you are welcome to customize them! */
     --opacity: 1;
-    --main: rgba(255, 254, 252, var(--opacity));
+    --main: rgba(255, 254, 252, 0.2);
     --secondary: #e8eef0;
     --thirdly: #f3f4f6;
     --borders: #dddddd;
+    --border_hover: rgb(98 98 98 / 30%);
     --text: #222222;
     --text-secondary: #999999;
     --accent: 178, 102, 40;
@@ -58,7 +59,7 @@ a.promnesia-visited {
     margin: 0;
     color: var(--text);
     /* background: var(--main) !important; */
-    background: #3e3e3e40 !important;
+    /* background: #3e3e3e40 !important; */
     overscroll-behavior: contain;
 }
 
@@ -67,19 +68,24 @@ a.promnesia-visited {
     top: 0;
     border-bottom: 1px solid;
 }
+#promnesia_background{
+    display: none;
+}
 
-#sidebar_background{
+.promnesia-sidebar-active #promnesia_background{
+    display: block;
     position: fixed;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
-    /* background: rgb(167 167 167 / 70%); */
+    background: hsl(0deg 0% 55% / 30%);
     backdrop-filter: blur(0.6px);
-    /* z-index: 2147483646; */
+    z-index: 100;
 }
 
 #sidebar_content{
+    width: 100%;
     max-width: 600px;
     max-height: 100%;
     overflow-y: auto;
@@ -88,19 +94,9 @@ a.promnesia-visited {
     background: rgb(167 167 167 / 70%);
     backdrop-filter: blur(2px);
     border-radius: 5px;
+    border-left: 1px solid var(--borders);
 }
 
-@media (prefers-color-scheme: dark) {
-    #sidebar_content {
-        background: rgb(167 167 167 / 70%);
-    }
-
-    @media (prefers-color-scheme: light) {
-        #sidebar_content {
-            background: rgb(167 167 167 / 70%);
-        }
-    }
-}
 
 #promnesia-sidebar-toolbar {
     display: flex;
@@ -146,6 +142,7 @@ a.promnesia-visited {
 #promnesia-sidebar-container {
     flex-grow: 1;
     overflow-y: auto;
+    /* min-width: 500px; */
 }
 
 /* meh, but ok for now */
@@ -158,6 +155,7 @@ a.promnesia-visited {
 #visits .context {
     white-space: pre-wrap; /* need to keep linebreaks  */
     padding-left: 1em;
+    min-width: 350px;
 }
 
 /* TODO use proper flex layout... */
@@ -300,7 +298,7 @@ a.promnesia-visited {
 }
 
 .promnesia .button:hover {
-    border-color: var(--main);
+    border-color: var(--border_hover);
 }
 
 .promnesia .button:focus {
