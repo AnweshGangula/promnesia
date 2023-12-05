@@ -65,10 +65,6 @@ class Sidebar {
         link.rel = "stylesheet";
         head.appendChild(link);
 
-        const rootMetaTags = frame.parentElement.parentElement.querySelectorAll("meta[name=color-scheme]");
-        for (const meta of rootMetaTags) {
-            head.appendChild(meta.cloneNode(true));
-        }
         // const meta = cdoc.createElement("meta");
         // meta.name = "color-scheme";
         // meta.content = "light dark";
@@ -95,6 +91,15 @@ class Sidebar {
         // makes it much easier for settings
         cbody.id = SIDEBAR_ID;
         cbody.setAttribute('uuid', UUID)
+
+        const rootMetaTags = frame.parentElement.parentElement.querySelectorAll("meta[name=color-scheme]");
+        if(rootMetaTags.length > 0){
+            cbody.classList.add('lightDark');
+            for (const meta of rootMetaTags) {
+                head.appendChild(meta.cloneNode(true));
+            }
+        }else{
+        }
 
         const sidebar_background = cdoc.createElement('div');
         sidebar_background.id = "sidebar_background";
