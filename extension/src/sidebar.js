@@ -65,10 +65,14 @@ class Sidebar {
         link.rel = "stylesheet";
         head.appendChild(link);
 
-        const meta = cdoc.createElement("meta");
-        meta.name = "color-scheme";
-        meta.content = "light dark";
-        head.appendChild(meta);
+        const rootMetaTags = frame.parentElement.parentElement.querySelectorAll("meta[name=color-scheme]");
+        for (const meta of rootMetaTags) {
+            head.appendChild(meta.cloneNode(true));
+        }
+        // const meta = cdoc.createElement("meta");
+        // meta.name = "color-scheme";
+        // meta.content = "light dark";
+        // head.appendChild(meta);
 
         addStyle(cdoc, this.opts.position_css);
         // ugh. this is fucking horrible. hack to add default --right: 1 if it's not defined anywhere...
