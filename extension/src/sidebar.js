@@ -54,7 +54,7 @@ class Sidebar {
         return unwrap(frame.contentDocument.getElementById(CONTAINER_ID));
     }
 
-    setupFrame(frame: HTMLIFrameElement): void {
+    setupFrame(frame: HTMLIFrameElement, promnesiaRootDiv: HTMLDivElement): void {
         const cdoc = frame.contentDocument;
         const head = unwrap(cdoc.head);
 
@@ -92,7 +92,7 @@ class Sidebar {
         cbody.id = SIDEBAR_ID;
         cbody.setAttribute('uuid', UUID)
 
-        const rootMetaTags = frame.parentElement.parentElement.querySelectorAll("meta[name=color-scheme]");
+        const rootMetaTags = frame.parentElement.parentElement.parentElement.querySelectorAll("meta[name=color-scheme]");
         if(rootMetaTags.length > 0){
             cbody.classList.add('lightDark');
             for (const meta of rootMetaTags) {
@@ -101,11 +101,11 @@ class Sidebar {
         }else{
         }
 
-        const sidebar_background = cdoc.createElement('div');
-        sidebar_background.id = "sidebar_background";
-        cbody.appendChild(sidebar_background);
+        // const sidebar_background = cdoc.createElement('div');
+        // sidebar_background.id = "sidebar_background";
+        // cbody.appendChild(sidebar_background);
 
-        sidebar_background.addEventListener('click', defensify(async () => {
+        promnesiaRootDiv.addEventListener('click', defensify(async () => {
             await this.hide();
         }, 'close_sidebar.onClick'));
 
@@ -220,6 +220,10 @@ class Sidebar {
             return frame;
         }
 
+        const promnesiaRootDiv = doc.createElement("div");
+        promnesiaRootDiv.id = "promnesia_background";
+        this.body.appendChild(promnesiaRootDiv);
+
         const sidebar = doc.createElement('iframe')
         sidebar.style.display = 'none' // prevent flickering while iframe is being initialised
         const isFirefox = window.navigator.userAgent.indexOf('Firefox') != -1
@@ -228,10 +232,10 @@ class Sidebar {
             // i.e. sidebar doesn't persist back/fwd navigation
             // however, it only reproduced under regular firefox -- doesn't matter under webdriver. odd
             sidebar.src = ''
-            this.body.appendChild(sidebar)
+            promnesiaRootDiv.appendChild(sidebar)
         } else {
             // BUT: under chrome if src is set before appendChild, it just doesn't display anything?? ugh
-            this.body.appendChild(sidebar)
+            promnesiaRootDiv.appendChild(sidebar)
             sidebar.src = ''
         }
 
@@ -243,7 +247,7 @@ class Sidebar {
         // todo add timeout to make it a bit easier to debug?
         await loadPromise;
 
-        this.setupFrame(sidebar);
+        this.setupFrame(sidebar, promnesiaRootDiv);
 
         // TODO a bit nasty, but at the moment easiest way to solve it
         // apparently iframe is loading about:blank
