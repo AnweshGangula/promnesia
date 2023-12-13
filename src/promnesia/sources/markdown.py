@@ -60,6 +60,13 @@ class Parser:
 
         # ugh. It can't output markdown.. https://github.com/miyuchina/mistletoe/issues/4
         context = None if last_block is None else HTML_MARKER + _ashtml(last_block)
+
+        if(isinstance(url, str) and (url.startswith("((") or url == "")):
+                # If its a logseq block reference or if its a markdown link without any url
+                url = "-".join(map(lambda r: r.content, cur.children))
+                # context = context.replace('<a href="((', )
+                # print(last_block)
+
         yield Parsed(url=url, context=context)
 
 
