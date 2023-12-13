@@ -22,4 +22,9 @@ else
     PY_BIN="python" # warn?
 fi
 
+printf "\n-----------------------------------\n\n"
+printf "Executing command:\n"
+printf "$PPATH exec $PY_BIN -m promnesia $@"
+printf "\n\n-----------------------------------\n\n"
+
 PYTHONPATH="$PPATH" exec "$PY_BIN" -m promnesia "$@"
