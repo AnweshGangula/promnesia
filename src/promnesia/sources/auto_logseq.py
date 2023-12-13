@@ -3,7 +3,7 @@ import urllib.parse
 
 
 def logseq_replacer(path: str, root: str) -> str:
-    if not path.startswith("editor://") or not (path.endswith((".md", ".org"))):
+    if not path.startswith("editor://") or not (path.endswith((".md", ".org")) or ".edn" in path):
         return path
 
     graph = os.path.basename(root)  # noqa: PTH119
