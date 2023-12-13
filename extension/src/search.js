@@ -190,7 +190,27 @@ window.onload = async () => {
             {
                 with_ctx_first: false,
                 // todo eh, need some proper handles here, e.g. some visit id...
-                highlight_if: (v: Visit) => Math.floor(v.time.getTime() / 1000) == timestamp,
+                // highlight_if: (_) => false,
+                highlight_if: (v: Visit) => {
+                    if (v.locator?.href.startsWith("logseq")) {
+                        return false
+                    } else {
+                        const timeDiff = Math.floor(v.time.getTime() / 1000) - timestamp
+                        // if the visit is within 1 hour from the timestamp, highlight it
+
+                        // similar to backend endpoint for /search_around
+                        //     # TODO meh. use count/pagination instead?
+                        // delta_back  = timedelta(hours=3  ).total_seconds()
+                        // delta_front = timedelta(minutes=2).total_seconds()
+
+                        const isbetween = (delta_back, delta_front) => {
+                            return delta_back <= timeDiff && timeDiff <= delta_front
+                        }
+
+                        return isbetween(-60*3, 60*2)
+                        return timeDiff < 60*30 // 30 mins
+                    }
+                },
             },
         )
         return
