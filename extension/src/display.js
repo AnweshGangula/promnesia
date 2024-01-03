@@ -106,10 +106,22 @@ export class Binder {
         const tchild = this.makeTchild.bind(this); // TODO still necessary??
 
         const item = child(parent, 'li', relative ? ['relative'] : []);
-        const header = child(item, 'div');
+        const details = child(item, 'details');
+        const header = child(details, 'summary');
         const relative_c = child(header, 'span');
         relative_c.id = 'relative_indicator';
         const tags_c = child(header, 'span');
+
+        if (context) {
+            if (context.length < 400) {
+                // HTML `<details>` tag automatically is closed.
+                details.setAttribute("open", true);
+            } else {
+                // Keep HTML `<details>` tag closed
+                const ctxTooLarge = child(header, 'span', ['ctxTooLarge']);
+                tchild(ctxTooLarge, ' (Context too large, click to expand)');
+            }
+        }
 
         const dt_c = child(header, 'span', ['datetime']);
         const time_c = child(dt_c, 'span', ['time']);
@@ -150,7 +162,7 @@ export class Binder {
 
 
         if (context != null) {
-            const ctx_c = child(item, 'div', ['context'])
+            const ctx_c = child(details, 'div', ['context'])
 
             // ugh.. so much code foe something so simple
             function do_simple(text: string) {
@@ -203,7 +215,7 @@ export class Binder {
 
         if (locator != null) {
             const loc = locator;
-            const loc_c = child(item, 'div', ['locator']);
+            const loc_c = child(details, 'div', ['locator']);
 
             if (loc.href === null) {
                 tchild(loc_c, loc.title);
@@ -245,7 +257,7 @@ export class Binder {
 
         // right, this is for search..
         if (normalised_url != null) {
-            const nurl_c = child(item, 'div', ['normalised_url']);
+            const nurl_c = child(details, 'div', ['normalised_url']);
             const link = child(nurl_c, 'a');
             link.href = unwrap(original_url);
             tchild(link, normalised_url);

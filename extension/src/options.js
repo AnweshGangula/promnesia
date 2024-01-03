@@ -111,20 +111,26 @@ function defaultOptions(): StoredOptions {
         mark_visited_always     : null,
         mark_visited_excludelist: '',
 
-        blacklist: '',
+        blacklist: `
+        https://web.whatsapp.com/
+        https://mail.google.com/
+        https://www.remnote.com/w/*
+        `,
         // todo would be nice to validate on saving...
         global_excludelists_ext: `[
-  ["Webmail",
-   "https://raw.githubusercontent.com/karlicoss/shallalist/main/webmail/domains"],
-  ["Banking",
-   "https://raw.githubusercontent.com/karlicoss/shallalist/main/finance/banking/domains"],
-   ["Dating",
-   "https://raw.githubusercontent.com/karlicoss/shallalist/main/dating/domains"],
-   ["Porn",
-   "https://raw.githubusercontent.com/karlicoss/shallalist/main/porn/domains"],
-   ["Spyware",
-   "https://raw.githubusercontent.com/karlicoss/shallalist/main/spyware/domains"]
-]`,
+            ["LocalDev",
+            "localhost:3000"],
+            ["Webmail",
+            "https://raw.githubusercontent.com/karlicoss/shallalist/main/webmail/domains"],
+            ["Banking",
+            "https://raw.githubusercontent.com/karlicoss/shallalist/main/finance/banking/domains"],
+            ["Dating",
+            "https://raw.githubusercontent.com/karlicoss/shallalist/main/dating/domains"],
+            ["Porn",
+            "https://raw.githubusercontent.com/karlicoss/shallalist/main/porn/domains"],
+            ["Spyware",
+            "https://raw.githubusercontent.com/karlicoss/shallalist/main/spyware/domains"]
+            ]`,
         src_map: '{}',
 
 

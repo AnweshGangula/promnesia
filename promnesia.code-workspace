@@ -9,5 +9,7 @@
 			"path": "C:/Users/gangu/AppData/Local/promnesia/promnesia"
 		}
 	],
-	"settings": {}
+	"settings": {
+		"powershell.cwd": "Promnesia Source Code",
+	}
 }
