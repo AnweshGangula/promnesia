@@ -86,7 +86,7 @@ a.promnesia-visited {
 
 #sidebar_content{
     width: 100%;
-    max-width: 600px;
+    max-width: 500px;
     max-height: 100%;
     overflow-y: auto;
     align-self: end;
@@ -95,6 +95,10 @@ a.promnesia-visited {
     backdrop-filter: blur(2px);
     border-radius: 5px;
     border-left: 1px solid var(--borders);
+
+    -webkit-box-shadow: -5px 1px 5px 0px rgba(99,99,99,1);
+    -moz-box-shadow: -5px 1px 5px 0px rgba(99,99,99,1);
+    box-shadow: -5px 1px 5px 0px rgba(99,99,99,1);
 }
 
 
@@ -223,6 +227,14 @@ a.promnesia-visited {
     cursor: pointer;
     font-family: monospace;
     color: var(--timestamp-text);
+}
+
+#visits summary {
+    cursor: pointer;
+}
+
+#visits .ctxTooLarge {
+    font-size: x-small;
 }
 
 /* TODO not great, but quickest way to render it neatly */

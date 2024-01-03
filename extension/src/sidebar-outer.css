@@ -5,7 +5,7 @@ body.promnesia-sidebar-active {
 .promnesia-sidebar-active #promnesia-frame {
     margin: 0;
     padding: 0;
-    max-width: 500px;
+    max-width: 550px;
     width: 100%;
     max-height: none;
     border: 0;
