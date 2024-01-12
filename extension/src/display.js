@@ -215,7 +215,7 @@ export class Binder {
 
         if (locator != null) {
             const loc = locator;
-            const loc_c = child(details, 'div', ['locator']);
+            const loc_c = child(item, 'div', ['locator']);
 
             if (loc.href === null) {
                 tchild(loc_c, loc.title);
