@@ -243,11 +243,20 @@ a.promnesia-visited {
 }
 
 #visits .datetime {
+    display: flex;
+    gap: 8px;
     white-space: nowrap;
     float: right;
     cursor: pointer;
     font-family: monospace;
     color: var(--timestamp-text);
+    border-radius: 6px;
+    padding: 0px 4px;
+    background: var(--date-bg);
+}
+
+#visits .datetime:hover {
+    background: var(--date-color);
 }
 
 #visits summary {
@@ -269,9 +278,6 @@ a.promnesia-visited {
     width: 11ch; /* TODO not sure how to alighn them properly across all of boxes... */
     display: inline-block; /* otherwise width doesn't work on span */
     text-align: end;
-    border-radius: 6px;
-    padding: 2px 4px;
-    background: var(--date-bg);
 }
 
 #visits .src {

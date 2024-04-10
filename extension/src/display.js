@@ -112,20 +112,21 @@ export class Binder {
         relative_c.id = 'relative_indicator';
         const tags_c = child(header, 'span');
 
+        details.setAttribute("open", true);
         if (context) {
             if (context.length < 400) {
                 // HTML `<details>` tag automatically is closed.
-                details.setAttribute("open", true);
             } else {
+                // details.removeAttribute("open");
                 // Keep HTML `<details>` tag closed
-                const ctxTooLarge = child(header, 'span', ['ctxTooLarge']);
-                tchild(ctxTooLarge, ' (Context too large, click to expand)');
+                // const ctxTooLarge = child(header, 'span', ['ctxTooLarge']);
+                // tchild(ctxTooLarge, ' (Context too large, click to expand)');
             }
         }
 
         const dt_c = child(header, 'span', ['datetime']);
-        const time_c = child(dt_c, 'span', ['time']);
         const date_c = child(dt_c, 'span', ['date']);
+        const time_c = child(dt_c, 'span', ['time']);
         item.setAttribute('data-sources', asClass(tags.join(' ')));
 
         const child_link = child(relative_c, 'a');
