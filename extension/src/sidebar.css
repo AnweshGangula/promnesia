@@ -161,6 +161,26 @@ a.promnesia-visited {
     padding-left: 1em;
     min-width: 350px;
     margin-bottom: 10px;
+
+    max-height: 400px;
+    overflow-y: auto;
+    overflow-x: clip;
+}
+
+.context :empty {
+    display: none;
+}
+
+#visits .context img {
+    max-width: 150px;
+    max-height: 150px;
+    margin: 2px 10px;
+}
+
+#visits .context ul {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
 }
 
 /* TODO use proper flex layout... */
@@ -184,6 +204,7 @@ a.promnesia-visited {
 
 #visits li {
     margin: 0;
+    margin-bottom: 5px;
     padding: 6px;
     background: var(--visits-item-bg);
     border: 1px solid var(--visits-item-border);
@@ -191,9 +212,9 @@ a.promnesia-visited {
     overflow-wrap: anywhere;
 }
 
-#visits li+li {
+/* #visits li+li {
     margin-top: 8px;
-}
+} */
 
 #visits li #relative_indicator {
     display: none;
@@ -231,6 +252,7 @@ a.promnesia-visited {
 
 #visits summary {
     cursor: pointer;
+    margin-bottom: 5px;
 }
 
 #visits .ctxTooLarge {
@@ -239,9 +261,9 @@ a.promnesia-visited {
 
 /* TODO not great, but quickest way to render it neatly */
 /* TODO not sure which order users expect first? */
-#visits .time {
+/* #visits .time {
     padding-right: 1em;
-}
+} */
 
 #visits .date {
     width: 11ch; /* TODO not sure how to alighn them properly across all of boxes... */
@@ -319,23 +341,29 @@ a.promnesia-visited {
 }
 
 /* Search page*/
+#promnesia-search {
+    max-width: 1200px;
+    margin: 10px auto;
+}
 #promnesia-search #search_id {
     display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 #promnesia-search ul {
     margin-block: 0;
 }
 
-#visits>li ul {
+/* #visits>li ul {
     margin-bottom: -20px;
     margin-top: -10px;
     padding-top: 10px;
-}
+} */
 
-#visits>li li {
+/* #visits>li li {
     margin-top: -10px;
-}
+} */
 
 #promnesia-search #query_id {
     font-size: 1em;
