@@ -112,14 +112,12 @@ function defaultOptions(): StoredOptions {
         mark_visited_excludelist: '',
 
         blacklist: `
-        https://web.whatsapp.com/
-        https://mail.google.com/
-        https://www.remnote.com/w/*
+        "https://web.whatsapp.com/"
+        "https://mail.google.com/mail/u/0/#inbox"
+        "https://www.remnote.com/w/.*.*"
         `,
         // todo would be nice to validate on saving...
         global_excludelists_ext: `[
-            ["LocalDev",
-            "localhost:3000"],
             ["Webmail",
             "https://raw.githubusercontent.com/karlicoss/shallalist/main/webmail/domains"],
             ["Banking",

@@ -22,7 +22,17 @@ export class Filterlist {
         this.filterlist = new Set(asList(filterlist))
         this.urllists   = JSON.parse(urllists_json)
 
-        this._lists = new Map()
+        this._lists = new Map();
+
+        const defaultExcludes = {
+            name: 'DefaultExcludes',
+            list: new Set([
+                'https://www.instagram.com/',
+                'www.instagram.com/direct',
+            ]),
+        }
+        this.urllists.push([defaultExcludes.name, ''])
+        this._lists.set(defaultExcludes.name, defaultExcludes.list);
     }
 
     // TODO use some extra cache?
