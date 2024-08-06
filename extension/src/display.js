@@ -106,13 +106,13 @@ export class Binder {
         const tchild = this.makeTchild.bind(this); // TODO still necessary??
 
         const item = child(parent, 'li', relative ? ['relative'] : []);
-        const details = child(item, 'details');
-        const header = child(details, 'summary');
+        const details = tags.includes("chrome") ? undefined : child(item, 'details');
+        const header = tags.includes("chrome") ? child(item, 'div') : child(details, 'summary');
         const relative_c = child(header, 'span');
         relative_c.id = 'relative_indicator';
         const tags_c = child(header, 'span');
 
-        details.setAttribute("open", true);
+        details?.setAttribute("open", true);
         if (context) {
             if (context.length < 400) {
                 // HTML `<details>` tag automatically is closed.
@@ -225,6 +225,11 @@ export class Binder {
                 link.title = 'Jump to the context';
                 // $FlowFixMe
                 link.href = loc.href;
+                if(tags.includes('logseq')){
+                    const pagePath = loc.title.split("\\").at(-1).split(".md")[0].toLowerCase().replaceAll("___","/")
+                    // console.log("logseq href", loc, `logseq://graph/AG-Logseq?page=${pagePath}`);
+                    link.href = `logseq://graph/AG-Logseq?page=${pagePath}`;
+                }
 
                 // _self seems to "work" only for the "editor://" protocol. Avoids opening a new tab for "editor://" links. Nttp links then require a middle-click, which is undesirable. With normal click, they would not open at all.
                 // testing on firefox mobile would be useful.
