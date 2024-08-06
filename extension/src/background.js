@@ -113,7 +113,7 @@ function getIconStyle(result: Result): IconStyle {
         return {icon: 'images/ic_relatives_48.png'    , title: `${vcount} visits, ${ctext}`, text: btext};
     }
     // TODO a bit ugly, but ok for now.. maybe cut off by time?
-    const boring = good.every(v => v.tags.length == 1 && v.tags[0] == THIS_BROWSER_TAG)
+    const boring = good.every(v => v.sources.length == 1 && v.sources[0] == THIS_BROWSER_TAG)
     if (boring) {
         // TODO not sure if really worth distinguishing..
         return {icon: "images/ic_boring_48.png"     , title: `${vcount} visits (${THIS_BROWSER_TAG} only)`, text: ''};

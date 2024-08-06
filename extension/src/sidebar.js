@@ -395,7 +395,7 @@ function _highlight(text: string, idx: number, v: Visit) {
         const ref = doc.createElement('span');
         ref.classList.add(Cls.HIGHLIGHT_REF);
         ref.textContent = String(idx)
-        ref.title = `promnesia #${idx}: ${v.tags.join(' ')} ${(USE_ORIGINAL_TZ ? v.dt_local : v.time).toLocaleString()}`
+        ref.title = `promnesia #${idx}: ${v.sources.join(' ')} ${(USE_ORIGINAL_TZ ? v.dt_local : v.time).toLocaleString()}`
         ref.style.position = 'relative'
         refc.appendChild(ref)
 
@@ -488,7 +488,7 @@ async function* _bindSidebarData(response: Visits) {
     // TODO not sure if should ignore things without contexts here... how to fit everything?
     const all_tags = new Map<Src, number>()
     for (const v of with_ctx) {
-        for (const t of v.tags) {
+        for (const t of v.sources) {
             // $FlowFixMe
             const pv = (all_tags.has(t) ? all_tags.get(t) : 0) + 1;
             all_tags.set(t, pv);
@@ -561,7 +561,7 @@ async function* _bindSidebarData(response: Visits) {
 
         // TODO maybe shouldn't attach immediately? not sure
         const [dates, times] = visit_date_time(v)
-        binder.render(items, dates, times, v.tags, {
+        binder.render(items, dates, times, v.sources, {
             idx           : idx1,
             timestamp     : v.time,
             original_url  : v.original_url,
@@ -615,7 +615,7 @@ async function* _bindSidebarData(response: Visits) {
                 // $FlowFixMe
                 total_dur += v.duration;
             }
-            for (const tag of v.tags) {
+            for (const tag of v.sources) {
                 const mapped_tag = getOrDefault(tag_map, tag, tag)
                 tset.add(mapped_tag)
             }

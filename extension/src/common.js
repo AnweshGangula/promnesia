@@ -49,18 +49,18 @@ export class Visit {
     time: AwareDate; // TODO rename to dt_utc?
     dt_local: NaiveDate;
 
-    tags: Array<Src>; // TODO need to rename tags to sources
+    sources: Array<Src>;
     context: ?string;
     locator: ?Locator;
     duration: ?Second;
 
 
-    constructor(original_url: string, normalised_url: string, time: AwareDate, dt_local: NaiveDate, tags: Array<Src>, context: ?string=null, locator: ?Locator=null, duration: ?Second=null) {
+    constructor(original_url: string, normalised_url: string, time: AwareDate, dt_local: NaiveDate, sources: Array<Src>, context: ?string=null, locator: ?Locator=null, duration: ?Second=null) {
         this.original_url   = original_url;
         this.normalised_url = normalised_url;
         this.time     = time;
         this.dt_local = dt_local;
-        this.tags = tags;
+        this.sources = sources;
         this.context = context;
         this.locator = locator;
         this.duration = duration;

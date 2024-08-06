@@ -89,7 +89,7 @@ async function* _doSearch(
     yield // give way to UI thread
     for (const v of chunk) {
         const [dates, times] = _fmt(v.time)
-        const cc = await binder.render(res, dates, times, v.tags, {
+        const cc = await binder.render(res, dates, times, v.sources, {
             idx           : null,
             timestamp     : v.time,
             original_url  : v.original_url,
