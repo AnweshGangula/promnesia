@@ -2,23 +2,22 @@ export type Url = string;
 export type Src = string;
 export type Second = number;
 export type Locator = {
-    title: string,
-    href: string | null,
-}
-export type Dt = Date
+    title: string;
+    href: string | null;
+};
+export type Dt = Date;
 
-export type AwareDate = Date
-export type NaiveDate = Date
-
+export type AwareDate = Date;
+export type NaiveDate = Date;
 
 export function format_duration(seconds: Second): string {
     let s = seconds;
     if (s < 60) {
-        return `${s} seconds`
+        return `${s} seconds`;
     }
     // forget seconds otherwise and just use days/hours/minutes
     s = Math.floor(s / 60);
-    const parts = []
+    const parts = [];
     const hours = Math.floor(s / 60);
     s %= 60;
     if (hours > 0) {
@@ -38,25 +37,26 @@ export class Visit {
     time: AwareDate; // TODO rename to dt_utc?
     dt_local: NaiveDate;
 
-    tags: Array<Src>; // TODO need to rename tags to sources
-    context: string | null
-    locator: Locator | null
-    duration: Second | null
+    sources: Array<Src>;
+    context: string | null;
+    locator: Locator | null;
+    duration: Second | null;
 
     constructor(
         original_url: string,
         normalised_url: string,
         time: AwareDate,
         dt_local: NaiveDate,
-        tags: Array<Src>, context: string | null=null,
-        locator: Locator | null=null,
-        duration: Second | null=null,
+        sources: Array<Src>,
+        context: string | null = null,
+        locator: Locator | null = null,
+        duration: Second | null = null
     ) {
-        this.original_url   = original_url;
+        this.original_url = original_url;
         this.normalised_url = normalised_url;
-        this.time     = time;
+        this.time = time;
         this.dt_local = dt_local;
-        this.tags = tags;
+        this.sources = sources;
         this.context = context;
         this.locator = locator;
         this.duration = duration;
@@ -64,33 +64,33 @@ export class Visit {
 
     // ugh..
     toJObject(): any {
-        const o = {}
-        Object.assign(o, this)
+        const o = {};
+        Object.assign(o, this);
         // @ts-expect-error
-        o.time     = o.time    .toJSON()
+        o.time = o.time.toJSON();
         // @ts-expect-error
-        o.dt_local = o.dt_local.toJSON()
-        return o
+        o.dt_local = o.dt_local.toJSON();
+        return o;
     }
 
     static fromJObject(o: any): Visit {
-        o.time     = new Date(o.time)
-        o.dt_local = new Date(o.dt_local)
+        o.time = new Date(o.time);
+        o.dt_local = new Date(o.dt_local);
         // @ts-expect-error
-        const v = new Visit()
-        Object.assign(v, o)
-        return v
+        const v = new Visit();
+        Object.assign(v, o);
+        return v;
     }
 }
 
-type VisitsList = Array<Visit | Error>
+type VisitsList = Array<Visit | Error>;
 // TODO errors might have datetime?
 
 export class Visits {
-    original_url  : Url
-    normalised_url: Url
+    original_url: Url;
+    normalised_url: Url;
     // TODO might be better to have a single list with Visit | Error type?
-    visits: VisitsList
+    visits: VisitsList;
 
     constructor(original_url: Url, normalised_url: Url, visits: VisitsList) {
         this.original_url = original_url;
@@ -99,16 +99,16 @@ export class Visits {
     }
 
     partition(): [Array<Visit>, Array<Error>] {
-        const good  = []
-        const err   = []
+        const good = [];
+        const err = [];
         for (const r of this.visits) {
             if (r instanceof Visit) {
-                good.push(r)
+                good.push(r);
             } else {
-                err.push(r)
+                err.push(r);
             }
         }
-        return [good, err]
+        return [good, err];
     }
 
     self_contexts(): Array<Locator | null> {
@@ -138,33 +138,33 @@ export class Visits {
 
     // NOTE: JSON.stringify will use this method
     toJObject(): any {
-        const o = {}
-        Object.assign(o, this)
+        const o = {};
+        Object.assign(o, this);
         // @ts-expect-error
         o.visits = o.visits.map((v: Visit | Error) => {
-            return (v instanceof Visit)
+            return v instanceof Visit
                 ? v.toJObject()
-                : {error: v.message, stack: v.stack}
-        })
-        return o
+                : { error: v.message, stack: v.stack };
+        });
+        return o;
     }
 
     static fromJObject(o: any): Visits {
         o.visits = o.visits.map((x: any) => {
-            const err = x.error
+            const err = x.error;
             if (err != null) {
-                const e = new Error(err)
+                const e = new Error(err);
                 // todo preserve name?
-                e.stack = x.stack
-                return e
+                e.stack = x.stack;
+                return e;
             } else {
-                return Visit.fromJObject(x)
+                return Visit.fromJObject(x);
             }
-        })
+        });
         // @ts-expect-error
-        const r = new Visits()
-        Object.assign(r, o)
-        return r
+        const r = new Visits();
+        Object.assign(r, o);
+        return r;
     }
 }
 
@@ -179,28 +179,28 @@ export class Blacklisted {
 }
 
 export const Methods = {
-    BIND_SIDEBAR_VISITS : 'bindSidebarVisits',
-    SEARCH_VISITS_AROUND: 'searchVisitsAround',
-    MARK_VISITED        : 'markVisited',
-    OPEN_SEARCH         : 'openSearch',
-    SIDEBAR_TOGGLE      : 'sidebarToggle',
-    OPTIONS_UPDATED     : 'optionsUpdated',
+    BIND_SIDEBAR_VISITS: "bindSidebarVisits",
+    SEARCH_VISITS_AROUND: "searchVisitsAround",
+    MARK_VISITED: "markVisited",
+    OPEN_SEARCH: "openSearch",
+    SIDEBAR_TOGGLE: "sidebarToggle",
+    OPTIONS_UPDATED: "optionsUpdated",
     // TODO not used
-    SIDEBAR_SHOW        : 'sidebarShow',
-    ZAPPER_EXCLUDELIST  : 'zapperExcludelist',
-}
+    SIDEBAR_SHOW: "sidebarShow",
+    ZAPPER_EXCLUDELIST: "zapperExcludelist",
+};
 
 export const Ids = {
     // visits container in sidebar/search (see sidebar.css)
-    VISITS: 'visits',
-}
+    VISITS: "visits",
+};
 
 export type SearchPageParams = {
     // TODO allow passing iso string??
-    utc_timestamp_s?: string,
+    utc_timestamp_s?: string;
     // Query string
-    q?: string
-}
+    q?: string;
+};
 
 export function log(): void {
     const args = [];
@@ -210,86 +210,95 @@ export function log(): void {
         args.push(JSON.stringify(arg));
     }
     // eslint-disable-next-line prefer-rest-params
-    console.trace('[background] ' + arguments[0], ...args);
+    console.trace("[background] " + arguments[0], ...args);
 }
 
-
 export function asList(bl: string): Array<string> {
-    return bl.split(/\n/).filter(s => s.length > 0);
+    return bl.split(/\n/).filter((s) => s.length > 0);
 }
 
 export function addStyle(doc: Document, css: string): void {
-    const st = doc.createElement('style');
+    const st = doc.createElement("style");
     st.appendChild(doc.createTextNode(css));
     doc.head!.appendChild(st);
 }
 
 export function safeSetInnerHTML(element: HTMLElement, html: string): void {
     const tags = new DOMParser()
-          .parseFromString(html, 'text/html')
-          .getElementsByTagName('body')[0]
-          .childNodes;
+        .parseFromString(html, "text/html")
+        .getElementsByTagName("body")[0].childNodes;
     // TODO wtf. if I just use for (t of tags), it doesn't iterate over <br>
     for (const t of Array.from(tags)) {
         element.appendChild(t);
     }
 }
 
-
 // shit. if I type Json properly, then it requires too much isinstance checks...
 // https://github.com/facebook/flow/issues/4825
 
-export type JsonArray = Array<Json>
-export type JsonObject = Partial<{ [key: string]: any }>
-export type Json = JsonArray | JsonObject
-
+export type JsonArray = Array<Json>;
+export type JsonObject = Partial<{ [key: string]: any }>;
+export type Json = JsonArray | JsonObject;
 
 export function getBrowser(): string {
     // https://stackoverflow.com/questions/12489546/getting-a-browsers-name-client-side
-    const agent = navigator.userAgent.toLowerCase()
+    const agent = navigator.userAgent.toLowerCase();
     switch (true) {
         // @ts-expect-error
-        case agent.indexOf("chrome") > -1 && !! chrome: return "chrome"
-        case agent.indexOf("firefox") > -1            : return "firefox"
-        case agent.indexOf("safari") > -1             : return "safari"
-        case agent.indexOf("edge") > -1               : return "edge"
+        case agent.indexOf("chrome") > -1 && !!chrome:
+            return "chrome";
+        case agent.indexOf("firefox") > -1:
+            return "firefox";
+        case agent.indexOf("safari") > -1:
+            return "safari";
+        case agent.indexOf("edge") > -1:
+            return "edge";
         // @ts-expect-error
-        case agent.indexOf("opr") > -1 && !!opr       : return "opera"
-        case agent.indexOf("trident") > -1            : return "ie"
-        default: return "browser"
+        case agent.indexOf("opr") > -1 && !!opr:
+            return "opera";
+        case agent.indexOf("trident") > -1:
+            return "ie";
+        default:
+            return "browser";
     }
 }
 
-export function* chunkBy<T>(it: Iterable<T>, count: number): Generator<Array<T>> {
-    let group = []
+export function* chunkBy<T>(
+    it: Iterable<T>,
+    count: number
+): Generator<Array<T>> {
+    let group = [];
     for (const i of it) {
         if (group.length == count) {
-            yield group
-            group = []
+            yield group;
+            group = [];
         }
-        group.push(i)
+        group.push(i);
     }
     if (group.length > 0) {
-        yield group
+        yield group;
     }
 }
 
 export type HttpResponse = {
-    headers: any,
-    ok: boolean,
-    statusText: string,
-    text: () => Promise<string>,
-}
+    headers: any;
+    ok: boolean;
+    statusText: string;
+    text: () => Promise<string>;
+};
 
 export function rejectIfHttpError(response: HttpResponse): HttpResponse {
     if (!response.ok) {
-        throw Error(response.statusText)
+        throw Error(response.statusText);
     } else {
-        return response
+        return response;
     }
 }
 
-export async function fetch_max_stale(url: string, {max_stale}: {max_stale: number}): Promise<HttpResponse> {
+export async function fetch_max_stale(
+    url: string,
+    { max_stale }: { max_stale: number }
+): Promise<HttpResponse> {
     /* In Firefox, Cache-Control allows max-stale param,
      * which forces the browser to return cached responses past max-age (controlled by server).
      * see https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Cache-Control#max-stale
@@ -301,44 +310,47 @@ export async function fetch_max_stale(url: string, {max_stale}: {max_stale: numb
 
     // if it's not cached, it will make a real request
     // anso works offline (returns cached response with no errors)
-    const cached_resp = await fetch(url, {cache: 'force-cache'}).then(rejectIfHttpError)
-    const expires = cached_resp.headers.get('expires')
+    const cached_resp = await fetch(url, { cache: "force-cache" }).then(
+        rejectIfHttpError
+    );
+    const expires = cached_resp.headers.get("expires");
     // not sure if it's possible not to have 'expires'
-    const stale_ms = new Date().getTime() - new Date(expires == null ? 0 : expires).getTime()
-    const max_stale_ms = max_stale * 1000
+    const stale_ms =
+        new Date().getTime() -
+        new Date(expires == null ? 0 : expires).getTime();
+    const max_stale_ms = max_stale * 1000;
     if (stale_ms < max_stale_ms) {
-        return cached_resp
+        return cached_resp;
     } else {
         // do a regular request instead
-        return fetch(url).then(rejectIfHttpError)
+        return fetch(url).then(rejectIfHttpError);
     }
 }
-
 
 // useful for debugging
 // borrowed from https://stackoverflow.com/a/2117523/706389
 export function uuid(): string {
-    return "10000000-1000-4000-8000-100000000000".replace(/[018]/g, c =>
-        (+c ^ crypto.getRandomValues(new Uint8Array(1))[0] & 15 >> +c / 4).toString(16)
-    )
+    return "10000000-1000-4000-8000-100000000000".replace(/[018]/g, (c) =>
+        (
+            +c ^
+            (crypto.getRandomValues(new Uint8Array(1))[0] & (15 >> (+c / 4)))
+        ).toString(16)
+    );
 }
-
 
 export function getOrDefault<T>(obj: any, key: string, def: T): T {
     const res = obj[key];
     return res === undefined ? def : res;
 }
 
-
 // js doesn't have builtin assert :(
 export function assert(condition: any, msg?: string): asserts condition {
     if (!condition) {
-        throw new Error(`assertion failed ${msg}`)
+        throw new Error(`assertion failed ${msg}`);
     }
 }
 
-
 // js doesn't have builtin async sleep :(
 export async function sleep(ms: number): Promise<void> {
-    return new Promise((resolve) => setTimeout(resolve, ms))
+    return new Promise((resolve) => setTimeout(resolve, ms));
 }
