@@ -6,6 +6,7 @@
   "scripts": {
     "test": "jest",
     "build": "rollup --config",
+    "build:chrome": "python ./build --chrome",
     "eslint": "eslint src",
     "web-ext": "web-ext",
     "chrome-webstore-upload": "chrome-webstore-upload"
