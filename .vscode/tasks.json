@@ -1,22 +1,109 @@
 {
-    // See https://go.microsoft.com/fwlink/?LinkId=733558
-    // for the documentation about the tasks.json format
-    "version": "2.0.0",
-    "tasks": [
-      {
-        "label": "startDev",
-        "type": "shell",
-        "command": "cd extension & py build --chrome",
-        // "script": "start:host", // add your npm command here
-        "group": {
-            "kind": "build",
-            "isDefault": true
-        },
-        "presentation": {
-            "reveal": "always",
-            "panel": "dedicated",
-            "focus": true
-        }
-      }
-    ]
-  }
+	"version": "2.0.0",
+	"tasks": [
+		{
+			"label": "startDev",
+			"type": "shell",
+			"command": "cd extension & py build --chrome",
+			// "script": "start:host", // add your npm command here
+			"group": {
+				"kind": "build",
+				"isDefault": true
+			},
+			"presentation": {
+				"reveal": "always",
+				"panel": "dedicated",
+				"focus": true
+			}
+		},
+		{
+			"label": "Promnesia: Watch & Auto-Index",
+			"type": "shell",
+			"command": "powershell",
+			"args": [
+				"-ExecutionPolicy",
+				"Bypass",
+				"-File",
+				"${workspaceFolder}\\scripts\\watch_promnesia.ps1",
+				"-ConfigPath",
+				"${input:selectConfig}",
+				"-PythonPath",
+				"${workspaceFolder}\\.venv\\Scripts\\python.exe"
+			],
+			"isBackground": true,
+			"presentation": {
+				"reveal": "always",
+				"panel": "dedicated",
+				"clear": true
+			},
+			"problemMatcher": []
+		},
+		{
+			"label": "Promnesia: Kill Server",
+			"type": "shell",
+			"command": "powershell",
+			"args": [
+				"-Command",
+				"if (Get-NetTCPConnection -LocalPort 13131 -ErrorAction SilentlyContinue) { Stop-Process -Id (Get-NetTCPConnection -LocalPort 13131).OwningProcess -Force -ErrorAction SilentlyContinue }"
+			],
+			"problemMatcher": [],
+			"presentation": {
+				"reveal": "silent",
+				"close": true
+			}
+		},
+		{
+			"label": "Promnesia: Run Index",
+			// "dependsOn": "Promnesia: Kill Server", // Cleans the port BEFORE indexing
+			"type": "shell",
+			"command": "${workspaceFolder}/.venv/Scripts/python.exe",
+			"args": [
+				"-m",
+				"promnesia",
+				"index"
+				// "--config", "${input:selectConfig}",
+			],
+			"options": {
+				"env": {
+					"PYTHONPATH": "${workspaceFolder}/src"
+				},
+				"cwd": "${workspaceFolder}/src"
+			},
+			"group": "build",
+			"presentation": {
+				"echo": true,
+				"reveal": "always",
+				"focus": false,
+				"panel": "dedicated",
+				"showReuseMessage": true,
+				"clear": true,
+				"close": false // This is the key: it closes the panel on success
+			},
+			"problemMatcher": []
+		},
+		{
+			"label": "Promnesia: Full Dev Environment",
+			"dependsOrder": "parallel",
+			"dependsOn": ["Promnesia: Watch & Auto-Index", "Promnesia: Run Index"],
+			"presentation": {
+				"reveal": "always",
+				"panel": "dedicated"
+			}
+		}
+	],
+	"inputs": [
+		{
+			"id": "selectConfig",
+			"type": "pickString",
+			"description": "Select configuration for Indexing:",
+			"options": [
+				{
+					"label": "User Local Settings",
+					"value": "${env:LOCALAPPDATA}\\promnesia\\promnesia\\config.py"
+				},
+				{ "label": "Workspace Config", "value": "${workspaceFolder}/config.py" }
+			],
+			"default": "${env:LOCALAPPDATA}\\promnesia\\promnesia\\config.py"
+		}
+	]
+}

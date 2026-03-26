@@ -1,0 +1,111 @@
+{
+	// Use IntelliSense to learn about possible attributes.
+	// Hover to view descriptions of existing attributes.
+	// For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+	"version": "0.2.0",
+	"configurations": [
+		{
+			"name": "Debug Promnesia: Index then Serve",
+			"type": "debugpy",
+			"request": "launch",
+			"module": "promnesia",
+			"preLaunchTask": "Promnesia: Run Index",
+			"args": [
+				"serve",
+				"--port=13131"
+				// "--config",
+				// "${input:selectConfig}"
+				// "${workspaceFolder}/config.py"
+			],
+			"console": "integratedTerminal",
+			"cwd": "${workspaceFolder}/src",
+			"env": {
+				"PYTHONPATH": "${workspaceFolder}/src"
+			},
+			"justMyCode": false,
+			"serverReadyAction": {
+				"action": "openExternally",
+				"pattern": "running on http://.*:(\\d+)",
+				"uriFormat": "http://localhost:%s/docs#/default/search_search_post"
+			}
+		}
+		// {
+		// 	"name": "Promnesia: Serve",
+		// 	"type": "debugpy",
+		// 	"request": "launch",
+		// 	"module": "promnesia",
+		// 	"args": [
+		// 		"serve",
+		// 		"--port=13131"
+		// 		// "--config",
+		// 		// "${input:selectConfig}"
+		// 		// "${workspaceFolder}/config.py"
+		// 	],
+		// 	"console": "integratedTerminal",
+		// 	"cwd": "${workspaceFolder}/src",
+		// 	"env": {
+		// 		"PYTHONPATH": "${workspaceFolder}/src"
+		// 	},
+		// 	"justMyCode": false,
+		// 	"serverReadyAction": {
+		// 		"action": "openExternally",
+		// 		"pattern": "running on http://.*:(\\d+)",
+		// 		"uriFormat": "http://localhost:%s/docs#/default/search_search_post"
+		// 	}
+		// },
+		// {
+		// 	"name": "Promnesia: Index",
+		// 	"type": "debugpy",
+		// 	"request": "launch",
+		// 	"module": "promnesia",
+		// 	"args": [
+		// 		"index"
+		// 		// "--config",
+		// 		// "${input:selectConfig}",
+		// 	],
+		// 	"cwd": "${workspaceFolder}/src",
+		// 	"env": {
+		// 		"PYTHONPATH": "${workspaceFolder}/src"
+		// 	},
+		// 	"console": "integratedTerminal"
+		// }
+	],
+	"inputs": [
+		{
+			"id": "selectConfig",
+			"type": "pickString",
+			"description": "Select configuration source:",
+			"options": [
+				{
+					"label": "Windows AppData Config",
+					"value": "${env:LOCALAPPDATA}\\promnesia\\config.py"
+				},
+				{
+					"label": "Local repo Config",
+					"value": "${workspaceFolder}\\config.py"
+				},
+				{
+					"label": "Dev/Testing Config",
+					"value": "${workspaceFolder}\\tests\\test_config.py"
+				},
+				{
+					"label": "Enter Custom Path...",
+					"value": "${input:manualConfigPath}"
+				}
+			],
+			"default": "${env:LOCALAPPDATA}\\promnesia\\config.py"
+		},
+		{
+			"id": "manualConfigPath",
+			"type": "promptString",
+			"description": "Enter path (e.g., C:\\my\\config.py)",
+			"default": "${env:LOCALAPPDATA}\\promnesia\\"
+		}
+	]
+	// "compounds": [
+	// 	{
+	// 		"name": "Index then Serve",
+	// 		"configurations": ["Promnesia: Index", "Promnesia: Serve"]
+	// 	}
+	// ]
+}
