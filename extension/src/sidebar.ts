@@ -113,10 +113,10 @@ class Sidebar {
         cbody.setAttribute("uuid", UUID);
 
         const rootMetaTags =
-            frame.parentElement.parentElement.parentElement.querySelectorAll(
+            frame.parentElement?.parentElement?.parentElement?.querySelectorAll(
                 "meta[name=color-scheme]"
             );
-        if (rootMetaTags.length > 0) {
+        if (rootMetaTags && rootMetaTags.length > 0) {
             cbody.classList.add("lightDark");
             for (const meta of rootMetaTags) {
                 head.appendChild(meta.cloneNode(true));

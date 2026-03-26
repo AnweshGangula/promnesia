@@ -108,12 +108,12 @@ export class Binder {
             : child(item, "details");
         const header = tags.includes("chrome")
             ? child(item, "div")
-            : child(details, "summary");
+            : child(details!, "summary"); // Use non-null assertion as details exists if not chrome
         const relative_c = child(header, "span");
         relative_c.id = "relative_indicator";
         const tags_c = child(header, "span");
 
-        details?.setAttribute("open", true);
+        details?.setAttribute("open", "true");
         if (context) {
             if (context.length < 400) {
                 // HTML `<details>` tag automatically is closed.
@@ -163,7 +163,7 @@ export class Binder {
             return true;
         };
 
-        if (context != null) {
+        if (context != null && details) {
             const ctx_c = child(details, "div", ["context"]);
 
             // ugh.. so much code for something so simple
@@ -219,7 +219,7 @@ export class Binder {
             }
         }
 
-        if (locator != null) {
+        if (locator != null && details) {
             const loc = locator;
             const loc_c = child(details, "div", ["locator"]);
 
@@ -229,10 +229,10 @@ export class Binder {
                 const link = child(loc_c, "a") as HTMLAnchorElement;
                 link.title = "Jump to the context";
                 link.href = loc.href;
-                if (tags.includes("logseq")) {
+                if (tags.includes("logseq") && loc.title) {
                     const pagePath = loc.title
                         .split("\\")
-                        .at(-1)
+                        .at(-1)!
                         .split(".md")[0]
                         .toLowerCase()
                         .replaceAll("___", "/");
@@ -271,7 +271,7 @@ export class Binder {
         }
 
         // right, this is for search..
-        if (normalised_url != null) {
+        if (normalised_url != null && details) {
             const nurl_c = child(details, "div", ["normalised_url"]);
             const link = child(nurl_c, "a") as HTMLAnchorElement;
             link.href = original_url!;

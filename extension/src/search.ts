@@ -149,7 +149,7 @@ doc.getElementById('search_id')!.addEventListener('submit', async (event: Event)
         allsources.search(getQuery().value),
         {
             with_ctx_first: true,
-            highlight_if: (v: Visit) => v.context.slice(0,150).toLowerCase().includes(getQuery().value),
+            highlight_if: (v: Visit) => v.context?.slice(0,150).toLowerCase().includes(getQuery().value),
         },
     );
 })
@@ -190,7 +190,7 @@ window.onload = async () => {
                 // todo eh, need some proper handles here, e.g. some visit id...
                 // highlight_if: (_) => false,
                 highlight_if: (v: Visit) => {
-                    if (v.locator?.href.startsWith("logseq")) {
+                    if (v.locator?.href!.startsWith("logseq")) {
                         return false
                     } else {
                         const timeDiff = Math.floor(v.time.getTime() / 1000) - timestamp
@@ -201,7 +201,7 @@ window.onload = async () => {
                         // delta_back  = timedelta(hours=3  ).total_seconds()
                         // delta_front = timedelta(minutes=2).total_seconds()
 
-                        const isbetween = (delta_back, delta_front) => {
+                        const isbetween = (delta_back: number, delta_front: number) => {
                             return delta_back <= timeDiff && timeDiff <= delta_front
                         }
 
